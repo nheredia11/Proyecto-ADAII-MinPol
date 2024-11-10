@@ -1,7 +1,7 @@
 import sys
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
-                           QHBoxLayout, QLabel, QLineEdit, QTextEdit, QPushButton,
-                           QFileDialog, QMessageBox, QGridLayout)
+                             QFormLayout, QLabel, QLineEdit, QTextEdit, QPushButton,
+                             QFileDialog, QMessageBox, QHBoxLayout, QGroupBox)
 from PyQt6.QtCore import Qt
 import subprocess
 import os
@@ -17,29 +17,32 @@ class MinPolGUI(QMainWindow):
         self.setCentralWidget(main_widget)
         layout = QVBoxLayout()
         
+        # Título principal
+        title_label = QLabel('<h1 style="color: #4CAF50;">MinPol Solver - Resolución de Problemas de Programación Entera</h1>')
+        layout.addWidget(title_label)
+        
         # Parámetros básicos
-        params_layout = QGridLayout()
+        params_layout = QFormLayout()
         
-        params_layout.addWidget(QLabel('Número de personas (n):'), 0, 0)
         self.n_input = QLineEdit()
-        params_layout.addWidget(self.n_input, 0, 1)
+        params_layout.addRow('Número de personas (n):', self.n_input)
         
-        params_layout.addWidget(QLabel('Número de opiniones (m):'), 1, 0)
         self.m_input = QLineEdit()
-        params_layout.addWidget(self.m_input, 1, 1)
+        params_layout.addRow('Número de opiniones (m):', self.m_input)
         
-        params_layout.addWidget(QLabel('Costo total máximo (ct):'), 2, 0)
         self.ct_input = QLineEdit()
-        params_layout.addWidget(self.ct_input, 2, 1)
+        params_layout.addRow('Costo total máximo (ct):', self.ct_input)
         
-        params_layout.addWidget(QLabel('Máximo movimientos (maxM):'), 3, 0)
         self.maxM_input = QLineEdit()
-        params_layout.addWidget(self.maxM_input, 3, 1)
+        params_layout.addRow('Máximo movimientos (maxM):', self.maxM_input)
         
-        layout.addLayout(params_layout)
+        # Contenedor para los parámetros
+        params_group = QGroupBox("Parámetros del problema")
+        params_group.setLayout(params_layout)
+        layout.addWidget(params_group)
         
         # Matrices y vectores
-        matrices_layout = QHBoxLayout()
+        matrices_layout = QVBoxLayout()
         
         # Distribución inicial
         dist_layout = QVBoxLayout()
@@ -83,9 +86,18 @@ class MinPolGUI(QMainWindow):
         layout.addLayout(buttons_layout)
         
         # Resultados
-        layout.addWidget(QLabel('Resultados:'))
+        layout.addWidget(QLabel('<h2 style="color: #4CAF50;">Resultados:</h2>'))
         self.results_text = QTextEdit()
         self.results_text.setReadOnly(True)
+        self.results_text.setStyleSheet("""
+            background-color: #333333;
+            color: #FFFFFF;
+            padding: 10px;
+            font-family: Courier, monospace;
+            font-size: 16px;
+        """)
+        # Hacemos el cuadro de resultados más grande
+        self.results_text.setFixedHeight(300)
         layout.addWidget(self.results_text)
         
         main_widget.setLayout(layout)

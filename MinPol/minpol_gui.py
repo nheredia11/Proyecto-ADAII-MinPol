@@ -90,15 +90,21 @@ class MinPolGUI(QMainWindow):
         self.results_text = QTextEdit()
         self.results_text.setReadOnly(True)
         self.results_text.setStyleSheet("""
-            background-color: #333333;
+            background-color: #222222;
             color: #FFFFFF;
             padding: 10px;
             font-family: Courier, monospace;
-            font-size: 16px;
+            font-size: 18px;
         """)
         # Hacemos el cuadro de resultados más grande
         self.results_text.setFixedHeight(300)
         layout.addWidget(self.results_text)
+        
+        # Estilo del fondo de la ventana
+        main_widget.setStyleSheet("""
+            background-color: #2E2E2E;
+            color: #FFFFFF;
+        """)
         
         main_widget.setLayout(layout)
     
@@ -154,4 +160,5 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MinPolGUI()
     window.show()
+
     sys.exit(app.exec())
